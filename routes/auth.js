@@ -18,52 +18,31 @@ function checker(result) {
 
 // ========================================================================================
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", async(req, res, next) => {
   checker(validationResult(req));
-  User.findOne({
-    where: {
-      Name: req.body.Name,
-    },
-  }).then((user) => {
-    if (user) {
-      res.status(400).send({
-        message: "Failed! Username is already in use!",
-      });
-      return;
+  
+  const { Name, Email, Password } = req.body;
+  try {
+    const salt = await bcrypt.genSalt(8);
+    const hash = await bcrypt.hash(Password, salt);
+    var usr = {
+      Name: Name,
+      Email: Email,
+      Password: hash
     }
-  }, (err) => {
-    // Email
-    User.findOne({
-      where: {
-        Email: req.body.Email,
-      },
-    }).then((user) => {
-      if (user) {
-        res.status(400).send({
-          message: "Failed! Email is already in use!",
-        });
-        return;
+    const created_user = await User.create(usr);
+    res.status(201).json(
+      {
+        message: "User created successfully!",
+        user: created_user
       }
-      next();
+    );
+  } catch (err) {
+    res.status(400).send({
+      message: "Failed! Username or Email is already in use!",
     });
-  });
-
-  let { Name, Email, Password } = req.body;
-
-  const salt = await bcrypt.genSalt(8);
-  var usr = {
-    Name: Name,
-    Email: Email,
-    Password: await bcrypt.hash(Password, salt),
-  };
-  created_user = await User.create(usr);
-  res.status(201).json(
-    {
-      message: "User created successfully!",
-      user: created_user
-
-    }
-  );
+  }
+    
 });
 
 // ==============================================================================================
@@ -83,9 +62,8 @@ router.post("/login", async (req, res) => {
           msg: "Email is incorrect",
         });
       }
-
       //check Password
-      bcrypt.compare(req.body.Password, user.Password, (err, r) => {
+      bcrypt.compare(req.body.Password, user.Password, async (err, r) => {
         console.log(req.body.Password);
         console.log(user.Password);
         if (err) {

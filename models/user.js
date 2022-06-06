@@ -22,14 +22,8 @@ Name:{
 },
 {
     timestamps: false,
-
-    // If don't want createdAt
     createdAt: false,
-  
-    // If don't want updatedAt
     updatedAt: false
-  
-    // your other configuration here
 });
 
 module.exports = User;
