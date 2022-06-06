@@ -1,207 +1,26 @@
 const mysql = require("mysql");
 const express = require("express");
 const app = express();
-const bodyparser = require('body-parser')
-const helmet = require('helmet')
-const morgan = require('morgan')
-const userRoute = require('./routes/users')
-const authRoute = require('./routes/auth')
+const bodyparser = require("body-parser");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const userRoute = require("./routes/users");
+const authRoute = require("./routes/auth");
+const sequelize = require("./models/dbModel");
 
+app.listen(3000, () => console.log("express server is running at port 3000"));
 
-app.listen(3000,()=>console.log("express server is running at port 3000"));
- 
-app.use(express.json())
-app.use(helmet())
-app.use(morgan("common"))
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"));
 
-app.use("/api/users",userRoute)
-app.use("/api/auth",authRoute)
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
 
 
-app.get("/",(req,res)=>
-{
-    res.send("Welcome to Homepage")
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.get("/", (req, res) => {
+  res.send("Welcome to Homepage");
+});
 
 // var db = mysql.createConnection({
 //   host: "localhost",
@@ -209,7 +28,6 @@ app.get("/",(req,res)=>
 //   Password:'1234',
 //   database: "EmployeeDB",
 // });
-
 
 // db.connect((err) => {
 //   if (!err) console.log("SUCCESS!!");
