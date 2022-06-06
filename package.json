@@ -19,6 +19,7 @@
     "express-validator": "^6.14.1",
     "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",

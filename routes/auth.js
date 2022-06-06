@@ -2,11 +2,10 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const Sequelize = require("sequelize");
-const { QueryTypes } = require("sequelize");
-const sequelize = require("../models/dbModel");
 const User = require("../models/User");
+const decode = require("jwt-decode");
 const { validationResult } = require("express-validator");
+const { generateToken }  = require("../utils/token");
 
 function checker(result) {
   if (!result.isEmpty()) {
@@ -18,9 +17,9 @@ function checker(result) {
 
 // ========================================================================================
 
-router.post("/register", async(req, res, next) => {
+router.post("/register", async (req, res, next) => {
   checker(validationResult(req));
-  
+
   const { Name, Email, Password } = req.body;
   try {
     const salt = await bcrypt.genSalt(8);
@@ -28,28 +27,26 @@ router.post("/register", async(req, res, next) => {
     var usr = {
       Name: Name,
       Email: Email,
-      Password: hash
-    }
+      Password: hash,
+    };
     const created_user = await User.create(usr);
-    res.status(201).json(
-      {
-        message: "User created successfully!",
-        user: created_user
-      }
-    );
+    res.status(201).json({
+      message: "User created successfully!",
+      user: created_user,
+    });
   } catch (err) {
     res.status(400).send({
       message: "Failed! Username or Email is already in use!",
     });
   }
-    
 });
 
 // ==============================================================================================
 
 router.post("/login", async (req, res) => {
-  const user = await User.findOne({ where: { Email: req.body.Email } }).then(
-    (user) => {
+  const { Email, Password } = req.body;
+  const user = await User.findOne({ where: { Email: req.body.Email } });
+
       if (!user) {
         res.status(400).send({
           message: "Failed! User not found!",
@@ -72,18 +69,37 @@ router.post("/login", async (req, res) => {
           });
         }
 
-        const tokenName = user.Email;
-
         //generate token
-        const token = jwt.sign(tokenName, process.env.SECRET_KEY);
+        const token = await generateToken(user);
         return res.status(200).send({
           msg: "logged in successfully",
           user: user,
           token,
         });
       });
-    }
-  );
-});
+    });
+
+    // ==============================================================================================
+
+    router.get("/profile", async (req, res,next) => {
+      const token = req.body.token || req.headers["x-access-token"];
+      console.log(token)
+     
+      try {
+          const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+          const Email = decodedToken.Email;
+          console.log("decoded",Email);
+          if (!Email) {
+              return res.status(401).json({message: 'NO email!'});
+          }
+          req.Email = Email;
+          req.Name = decodedToken.Name;
+      } catch (error) {
+          return res.status(401).json({message: 'You are not authorized!'});
+      }
+      next();
+    });
+    // ==============================================================================================
+
 
 module.exports = router;
