@@ -5,7 +5,7 @@ require("dotenv").config();
 const User = require("../models/User");
 const decode = require("jwt-decode");
 const { validationResult } = require("express-validator");
-const { generateToken }  = require("../utils/token");
+const { generateToken } = require("../utils/token");
 
 function checker(result) {
   if (!result.isEmpty()) {
@@ -47,59 +47,40 @@ router.post("/login", async (req, res) => {
   const { Email, Password } = req.body;
   const user = await User.findOne({ where: { Email: req.body.Email } });
 
-      if (!user) {
-        res.status(400).send({
-          message: "Failed! User not found!",
-        });
-        return;
-      }
-      //check whether the user with that Email exists or not
-      if (req.body.Email !== user.Email) {
-        return res.status(401).send({
-          msg: "Email is incorrect",
-        });
-      }
-      //check Password
-      bcrypt.compare(req.body.Password, user.Password, async (err, r) => {
-        console.log(req.body.Password);
-        console.log(user.Password);
-        if (err) {
-          return res.status(401).send({
-            msg: "Password is incorrect ",
-          });
-        }
-
-        //generate token
-        const token = await generateToken(user);
-        return res.status(200).send({
-          msg: "logged in successfully",
-          user: user,
-          token,
-        });
+  if (!user) {
+    res.status(400).send({
+      message: "Failed! User not found!",
+    });
+    return;
+  }
+  //check whether the user with that Email exists or not
+  if (req.body.Email !== user.Email) {
+    return res.status(401).send({
+      msg: "Email is incorrect",
+    });
+  }
+  //check Password
+  bcrypt.compare(req.body.Password, user.Password, async (err, r) => {
+    console.log(req.body.Password);
+    console.log(user.Password);
+    if (err) {
+      return res.status(401).send({
+        msg: "Password is incorrect ",
       });
-    });
+    }
 
-    // ==============================================================================================
+    //generate token
+    const token = await generateToken(user);
 
-    router.get("/profile", async (req, res,next) => {
-      const token = req.body.token || req.headers["x-access-token"];
-      console.log(token)
-     
-      try {
-          const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-          const Email = decodedToken.Email;
-          console.log("decoded",Email);
-          if (!Email) {
-              return res.status(401).json({message: 'NO email!'});
-          }
-          req.Email = Email;
-          req.Name = decodedToken.Name;
-      } catch (error) {
-          return res.status(401).json({message: 'You are not authorized!'});
-      }
-      next();
+    return res.setHeader("x-access-token", token).send({
+      message: "Login successful!",
+      user: user,
+      token: token,
     });
-    // ==============================================================================================
+  });
+});
+
+// ==============================================================================================
 
 
 module.exports = router;

@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const sequelize = require("./models/dbModel");
+const auth_jwt = require("./middleware/auth_jwt");
 
 app.listen(3000, () => console.log("express server is running at port 3000"));
 
@@ -16,7 +17,9 @@ app.use(morgan("common"));
 
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/auth_jwt", auth_jwt);
 
+sequelize.sync();
 
 app.get("/", (req, res) => {
   res.send("Welcome to Homepage");
