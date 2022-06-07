@@ -4,13 +4,9 @@ const User = require("../models/User");
 
 module.exports = (req, res,next) => {
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    console.log("user",token)
-   
     try {
-        const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-        console.log(decodedToken);
+        const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
         const email = decodedToken.email;
-        console.log("decoded",email);
         if (!email) {
             return res.status(401).json({message: 'No email!'});
         }
