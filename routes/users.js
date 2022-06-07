@@ -38,12 +38,37 @@ router.delete('/delete/:id',async (req,res)=>{
 
 
 //update an user
-router.put("/update/:id",auth_jwt, async (req, res) => {
+router.put("/update/password/:id",auth_jwt, async (req, res) => {
   const user = await User.findByPk(req.params.id);
-  res.send(JSON.stringify(user, null, 2));
-
-  
-  
+  console.log(user);
+  if (!user) {
+    res.status(404).send({
+      message: "User not found!"
+    });
+  }
+  const {oldPassword,newPassword } = req.body;
+  // console.log(oldPassword,newPassword);
+  // console.log(user.Password);
+  // const usr = await User.findOne({ where: { Password: req.body.oldPassword } });
+  // console.log("usr",usr);
+  const verify_oldPassword = await bcrypt.compare(req.body.oldPassword, user.Password);
+  // console.log(verify_oldPassword);
+  if (!verify_oldPassword) {
+    res.status(400).send({
+      message: "Old password is incorrect!"
+    });
+  }
+  const salt = await bcrypt.genSalt(8);
+  const hash = await bcrypt.hash(newPassword, salt);
+  await user.update({ Password: hash }, {
+    where: {
+      id: req.params.id
+    }
+  });
+  res.send({
+    message: "Password updated successfully!",
+    user: user
+  });
 });
 
 //register
