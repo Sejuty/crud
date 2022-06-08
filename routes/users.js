@@ -9,6 +9,9 @@ router.get('/all',async (req,res)=>{ //get all users
   res.send(JSON.stringify(users, null, 2));
 })
 
+
+
+
 //get user by id
 router.get('/:id',async (req,res)=>{
   const user = await User.findByPk(req.params.id);
@@ -21,7 +24,7 @@ router.get('/:id',async (req,res)=>{
 }) 
 
 //delete user by id
-router.delete('/delete/:id',async (req,res)=>{
+router.delete('/delete/:id',auth_jwt,async (req,res)=>{
   const user = await User.findByPk(req.params.id);
   if(!user){
     return res.status(404).send({
@@ -31,6 +34,8 @@ router.delete('/delete/:id',async (req,res)=>{
   await user.destroy();
   res.send(JSON.stringify(user, null, 2));
 })
+
+
 
 //update password
 router.put("/update/password/:id",auth_jwt, async (req, res) => {
@@ -61,7 +66,9 @@ router.put("/update/password/:id",auth_jwt, async (req, res) => {
   });
 });
 
-//register
+
+
+
 router.get("/", (req, res) => {
   res.send("This is user page");
 });

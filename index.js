@@ -23,54 +23,12 @@ app.use("/api/auth", authRoute);
 app.use("/api/auth_jwt", auth_jwt);
 app.use("/api/user", userPost);
 
-User.hasMany(Post)
+User.hasMany(Post,{
+  onDelete : "CASCADE"
+})
 
 sequelize.sync();
 
 app.get("/", (req, res) => {
   res.send("Welcome to Homepage");
 });
-
-// var db = mysql.createConnection({
-//   host: "localhost",
-//   user  :'root',
-//   Password:'1234',
-//   database: "EmployeeDB",
-// });
-
-// db.connect((err) => {
-//   if (!err) console.log("SUCCESS!!");
-//   else
-//     console.log("DB connection Failed :" + JSON.stringify(err, undefined, 2));
-// });
-
-// app.listen(3000,()=>console.log("express server is running at port 3000"));
-
-// app.get('/employees',(req,res)=>{
-//     db.query('SELECT * FROM Employee',(err,rows,fields)=>{
-//         if(!err)
-//         res.send(rows)
-//         else
-//         console.log(err);
-//     })
-// })
-
-// //get an employee
-// app.get('/employees/:id',(req,res)=>{
-//     db.query('SELECT * FROM Employee WHERE EmpID = ?',[req.params.id],(err,rows,fields)=>{
-//         if(!err)
-//         res.send(rows)
-//         else
-//         console.log(err);
-//     })
-// })
-
-// //delete an employee
-// app.get('/employees/delete/:id',(req,res)=>{
-//     db.query('DELETE FROM Employee WHERE EmpID = ?',[req.params.id],(err,rows,fields)=>{
-//         if(!err)
-//         res.send("Deleted succesfully")
-//         else
-//         console.log(err);
-//     })
-// })

@@ -6,13 +6,9 @@ const jwt = require("jsonwebtoken")
 
 //=========================create post=========================
 router.post("/post",auth_jwt,async(req, res) => {
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
-    const email = decodedToken.email;
-    console.log(email);
+    const userId = req.id;
     const { title, body } = req.body;
-    const user = await User.findOne({where: {Email: email}});
-    console.log(user);
+    const user = await User.findByPk(userId);
     if (!user) {
         return res.status(404).send("User not found");
     }
@@ -26,11 +22,9 @@ router.post("/post",auth_jwt,async(req, res) => {
 
 //=========================update title=========================
 router.put('/post/update/title',auth_jwt,async(req,res)=>{
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
-    const email = decodedToken.email;
+    const userId = req.id;
     const {id,title} = req.body;
-    const user = await User.findOne({where: {Email: email}});
+    const user = await User.findByPk(userId);
     const post = await Post.findOne({where: {id: id}});
     if(post.userId !== user.id){
         return res.status(401).send({
@@ -52,11 +46,9 @@ router.put('/post/update/title',auth_jwt,async(req,res)=>{
 
 //=========================update body=========================
 router.put('/post/update/body',auth_jwt,async(req,res)=>{
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
-    const email = decodedToken.email;
+    const userId = req.id;
     const {id,body} = req.body;
-    const user = await User.findOne({where: {Email: email}});
+    const user = await User.findByPk(userId);
     const post = await Post.findOne({where: {id: id}});
     if(post.userId !== user.id){
         return res.status(401).send({
@@ -77,12 +69,9 @@ router.put('/post/update/body',auth_jwt,async(req,res)=>{
 
 //=========================delete post=========================
 router.delete('/post/delete/:id',auth_jwt,async(req,res)=>{
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
-    const email = decodedToken.email;
-    console.log(email);
+    const userId = req.id;
     const {id} = req.params;
-    const user = await User.findOne({where: {Email: email}});
+    const user = await User.findByPk(userId);
     const post = await Post.findOne({where: {id: id}});
     if(post.userId !== user.id){
         return res.status(401).send({
@@ -101,10 +90,8 @@ router.delete('/post/delete/:id',auth_jwt,async(req,res)=>{
 
 //=========================get all posts=========================
 router.get('/post/all',auth_jwt,async(req,res)=>{
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
-    const email = decodedToken.email;
-    const user = await User.findOne({where: {Email: email}});
+    const userId = req.id;
+    const user = await User.findByPk(userId);
     if (!user) {
         return res.status(404).send("User not found");
     }
