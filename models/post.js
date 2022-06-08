@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize")
-const sequelize = require("./dbModel")
+const sequelize = require("../DB/dbModel")
 
 const Post = sequelize.define('post', {
     id: {

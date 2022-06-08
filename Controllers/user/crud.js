@@ -1,15 +1,15 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
-const auth_jwt = require("../middleware/auth_jwt");
+const User = require("../../models/User");
+const auth_jwt = require("../../middleware/auth_jwt");
 
-router.get('/all',async (req,res)=>{ //get all users
+//get all users
+
+router.get('/all',async (req,res)=>{ 
   const users = await User.findAll();
   console.log(users.every(user => user instanceof User)); // true
   res.send(JSON.stringify(users, null, 2));
 })
-
-
 
 
 //get user by id
@@ -25,27 +25,31 @@ router.get('/:id',async (req,res)=>{
 
 //delete user by id
 router.delete('/delete/:id',auth_jwt,async (req,res)=>{
-  const user = await User.findByPk(req.params.id);
-  if(!user){
-    return res.status(404).send({
-      message: "User is DELETED!"
+  
+  if(req.params !== req.id)
+  {
+    return res.status(401).send({
+      message: "You are not authorized to delete this user!"
     });
   }
+  const user = await User.findByPk(req.params.id);
   await user.destroy();
-  res.send(JSON.stringify(user, null, 2));
+  res.send({
+    message: "User deleted successfully!"
+  });
 })
 
 
 
 //update password
 router.put("/update/password/:id",auth_jwt, async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  console.log(user);
-  if (!user) {
-    return res.status(404).send({
-      message: "User not found!"
+  if(!Boolean(req.params.id,req.id))
+  {
+    return res.status(401).send({
+      message: "You are not authorized to update this user!"
     });
   }
+  const user = await User.findByPk(req.params.id);
   const {oldPassword,newPassword } = req.body;
   const verify_oldPassword = await bcrypt.compare(req.body.oldPassword, user.Password);
   if (!verify_oldPassword) {

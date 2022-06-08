@@ -1,7 +1,7 @@
-const Post = require("../models/post");
-const User = require("../models/User");
+const Post = require("../../models/Post");
+const User = require("../../models/User");
 const router = require("express").Router();
-const auth_jwt = require("../middleware/auth_jwt");
+const auth_jwt = require("../../middleware/auth_jwt");
 const jwt = require("jsonwebtoken")
 
 //=========================create post=========================
@@ -26,6 +26,7 @@ router.put('/post/update/title',auth_jwt,async(req,res)=>{
     const {id,title} = req.body;
     const user = await User.findByPk(userId);
     const post = await Post.findOne({where: {id: id}});
+    console.log(post.userId,user.id);
     if(post.userId !== user.id){
         return res.status(401).send({
             message: "You are not authorized to update this post!"
@@ -69,10 +70,26 @@ router.put('/post/update/body',auth_jwt,async(req,res)=>{
 
 //=========================delete post=========================
 router.delete('/post/delete/:id',auth_jwt,async(req,res)=>{
+    //get user id from token
     const userId = req.id;
     const {id} = req.params;
+    
+    //get user from user id
     const user = await User.findByPk(userId);
+    console.log(user)
+    if(!user){
+        return res.status(404).send({
+            message: "User not found!"
+        });
+    }
+
     const post = await Post.findOne({where: {id: id}});
+    if(!post){
+        return res.status(404).send({
+            message: "Post not found!"
+        });
+    }
+    // console.log(post)
     if(post.userId !== user.id){
         return res.status(401).send({
             message: "You are not authorized to DELETE this post!"
@@ -106,6 +123,10 @@ router.get('/post/all',auth_jwt,async(req,res)=>{
 //=========================get post by user=========================
 router.get('/post/:id',async(req,res)=>{
     const {id} = req.params;
+    const user = await User.findOne({where: {id: id}});
+    if (!user) {
+        return res.status(404).send("User not found");
+    }
     const post = await Post.findAll({where: {userId: id}});
     if (!post) {
         return res.status(404).send("Post not found");
