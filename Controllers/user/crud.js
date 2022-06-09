@@ -70,9 +70,6 @@ router.put("/update/password/:id",auth_jwt, async (req, res) => {
   });
 });
 
-
-
-
 router.get("/", (req, res) => {
   res.send("This is user page");
 });

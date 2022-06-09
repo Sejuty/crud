@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const User = require("../../models/User");
-const decode = require("jwt-decode");
 const { validationResult } = require("express-validator");
 const { generateToken } = require("../../utils/token");
 
@@ -15,7 +14,7 @@ function checker(result) {
   }
 }
 
-// ========================================================================================
+// ======================================================================================
 
 router.post("/register", async (req, res, next) => {
   checker(validationResult(req));
@@ -32,7 +31,8 @@ router.post("/register", async (req, res, next) => {
     const created_user = await User.create(usr);
     res.status(201).json({
       message: "User created successfully!",
-      user: created_user,
+      Name: Name,
+      Email: Email
     });
   } catch (err) {
     res.status(400).send({
@@ -72,7 +72,7 @@ router.post("/login", async (req, res) => {
     //generate token
     const token = await generateToken(user);
 
-    return res.setHeader("x-access-token", token).send({
+    return res.send({
       message: "Login successful!",
       user: user,
       token: token,

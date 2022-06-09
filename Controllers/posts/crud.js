@@ -2,7 +2,6 @@ const Post = require("../../models/Post");
 const User = require("../../models/User");
 const router = require("express").Router();
 const auth_jwt = require("../../middleware/auth_jwt");
-const jwt = require("jsonwebtoken")
 
 //=========================create post=========================
 router.post("/post",auth_jwt,async(req, res) => {
@@ -26,15 +25,17 @@ router.put('/post/update/title',auth_jwt,async(req,res)=>{
     const {id,title} = req.body;
     const user = await User.findByPk(userId);
     const post = await Post.findOne({where: {id: id}});
-    console.log(post.userId,user.id);
+    
+    if (!post) {
+        return res.status(404).send("Post not found");
+    }
+    
     if(post.userId !== user.id){
         return res.status(401).send({
             message: "You are not authorized to update this post!"
         });
     }
-    if (!post) {
-        return res.status(404).send("Post not found");
-    }
+   
     await post.update({
         title
     });

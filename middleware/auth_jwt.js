@@ -16,7 +16,7 @@ const jwt_auth = (req, res,next) => {
         req.Email = email;
         next();
     } catch (error) {
-        return res.status(401).json({message: 'You are not token authorized!',
+        return res.status(401).json({message: 'You are not authorized!',
         error: error});
     }
    
