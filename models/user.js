@@ -2,14 +2,14 @@ const Sequelize = require("sequelize")
 const sequelize = require("../DB/dbModel")
 
 const User = sequelize.define("users", {
-    Name: {
+    name: {
         type: Sequelize.STRING,
         allowNull: false
-    }, Email: {
+    }, email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
-    }, Password: {
+    }, password: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true

@@ -8,7 +8,7 @@ const sequelize = new Sequelize("cruddb","root","",{
 // var db = mysql.createConnection({
 //       host: "localhost",
 //       user:'root',
-//       Password:'1234',
+//       password:'1234',
 //       database: "crudDB",
 //     });
 

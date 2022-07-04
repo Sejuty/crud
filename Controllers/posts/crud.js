@@ -2,11 +2,15 @@ const Post = require("../../models/Post");
 const User = require("../../models/User");
 const router = require("express").Router();
 const auth_jwt = require("../../middleware/auth_jwt");
+const cors = require("cors");
 
+
+router.use(cors());
 //=========================create post=========================
 router.post("/post",auth_jwt,async(req, res) => {
     const userId = req.id;
     const { title, body } = req.body;
+    console.log(req.body)
     const user = await User.findByPk(userId);
     if (!user) {
         return res.status(404).send("User not found");
@@ -107,17 +111,17 @@ router.delete('/post/delete/:id',auth_jwt,async(req,res)=>{
 })
 
 //=========================get all posts=========================
-router.get('/post/all',auth_jwt,async(req,res)=>{
-    const userId = req.id;
-    const user = await User.findByPk(userId);
-    if (!user) {
-        return res.status(404).send("User not found");
-    }
-    const posts = await Post.findAll({
-        where: {
-            userId: user.id
-        }
-    });
+router.get('/post/all',async(req,res)=>{
+    // const userId = req.id;
+    // const user = await User.findByPk(userId);
+    // if (!user) {
+    //     return res.status(404).send("User not found");
+    // }
+    const posts = await Post.findAll()
+    //     where: {
+    //         userId: user.id
+    //     }
+    // });
     res.status(201).send(posts);
 })
 

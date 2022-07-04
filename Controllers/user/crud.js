@@ -4,69 +4,67 @@ const User = require("../../models/User");
 const auth_jwt = require("../../middleware/auth_jwt");
 
 //get all users
-
-router.get('/all',async (req,res)=>{ 
-  const users = await User.findAll();
-  console.log(users.every(user => user instanceof User)); // true
+router.get("/all", async (req, res) => {
+  const users = await User.findAll(); // true
   res.send(JSON.stringify(users, null, 2));
-})
-
+});
 
 //get user by id
-router.get('/:id',async (req,res)=>{
+router.get("/:id", async (req, res) => {
   const user = await User.findByPk(req.params.id);
-  if(!user){
+  if (!user) {
     return res.status(404).send({
-      message: "User not found!"
+      message: "User not found!",
     });
   }
   res.send(JSON.stringify(user, null, 2));
-}) 
+});
 
 //delete user by id
-router.delete('/delete/:id',auth_jwt,async (req,res)=>{
-  
-  if(req.params !== req.id)
-  {
-    return res.status(401).send({
+///refactor it
+router.delete("/delete", auth_jwt, async (req, res) => {
+  const user = await User.findByPk(req.id);
+  if (!user) {
+    return res.status(404).send({
       message: "You are not authorized to delete this user!"
     });
   }
-  const user = await User.findByPk(req.params.id);
   await user.destroy();
   res.send({
     message: "User deleted successfully!"
   });
-})
-
-
+});
 
 //update password
-router.put("/update/password/:id",auth_jwt, async (req, res) => {
-  if(!Boolean(req.params.id,req.id))
-  {
-    return res.status(401).send({
-      message: "You are not authorized to update this user!"
-    });
+router.put("/update/password", auth_jwt, async (req, res) => {
+  const user = await User.findByPk(req.id);
+  if (!user) {
+    return res.status(404).send(
+      {
+        message: "You are not authorized to update this user!"
+      }
+    );
   }
-  const user = await User.findByPk(req.params.id);
-  const {oldPassword,newPassword } = req.body;
-  const verify_oldPassword = await bcrypt.compare(req.body.oldPassword, user.Password);
+  const { oldPassword, newPassword } = req.body;
+  const verify_oldPassword = await bcrypt.compare(oldPassword, user.password);
   if (!verify_oldPassword) {
     return res.status(400).send({
-      message: "Old password is incorrect!"
+      message: "Old password is incorrect!",
     });
   }
   const salt = await bcrypt.genSalt(8);
   const hash = await bcrypt.hash(newPassword, salt);
-  await user.update({ Password: hash }, {
-    where: {
-      id: req.params.id
+  await user.update(
+    { password: hash },
+    {
+      where: {
+        id: req.params.id,
+      },
     }
-  });
+  );
   res.send({
-    message: "Password updated successfully!",
-    user: user
+    message: "password updated successfully!",
+    user: user,
   });
 });
 

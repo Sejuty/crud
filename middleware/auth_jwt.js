@@ -8,12 +8,8 @@ const jwt_auth = (req, res,next) => {
         const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
         const email = decodedToken.email;
         const id = decodedToken.id;
-        if (!email) {
-            return res.status(401).json({message: 'No email!'});
-        }
-        const user = User.findOne({where: {Email: email}});
         req.id = id;
-        req.Email = email;
+        req.email = email;
         next();
     } catch (error) {
         return res.status(401).json({message: 'You are not authorized!',
