@@ -25,16 +25,12 @@ export const Home = () => {
   const toRegister = () => {
     navigate("/api/auth/register");
   };
+  const toProfile = () => {
+    navigate("api/user/profile");
+  };
   const toPost = () => {
     navigate("api/user/post");
   };
-
-  // const handleNewPost = (newPost)=>{
-  //   setPosts((prevPosts)=>{
-  //     return[...prevPosts,{newPost}]
-  //   })
-  //   console.log(newPost)
-  // }
   
   return (
     <div>
@@ -46,6 +42,9 @@ export const Home = () => {
       </div>
       <div>
         <button onClick={toPost} >Post</button>
+      </div>
+      <div>
+        <button onClick={toProfile} >Profile</button>
       </div>
     </div>
   );

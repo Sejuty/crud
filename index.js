@@ -26,8 +26,9 @@ app.use("/api/user", userPost);
 User.hasMany(Post,{
   onDelete : "CASCADE"
 })
+Post.belongsTo(User);
 
-sequelize.sync();
+sequelize.sync({force:false});
 
 app.get("/", (req, res) => {
   res.send("Welcome to Homepage");

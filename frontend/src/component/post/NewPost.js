@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { MyPosts } from "./MyPosts";
 
 export const NewPost = (props) => {
   const [post, setPost] = useState({
@@ -77,6 +78,7 @@ export const NewPost = (props) => {
           Add Post
         </button>
       </form>
+      <MyPosts />
     </div>
   );
 };

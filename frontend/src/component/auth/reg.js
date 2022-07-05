@@ -9,6 +9,9 @@ const navigate = useNavigate();
 const toLogin = () => {
   navigate('/api/auth/login');
 };
+const toHome = () => {
+  navigate('/');
+};
 
 const { name, email, password } = user;
 const register = async()=>{
@@ -27,6 +30,7 @@ const register = async()=>{
   const handleSubmit = (e) => {
     console.log("Submitted");
     console.log(user);
+    toHome()
     e.preventDefault();
   };
   const handleChange = (e) => {

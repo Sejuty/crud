@@ -3,6 +3,8 @@ const User = require("../models/User");
 
 
 const jwt_auth = (req, res,next) => {
+    console.log("I am here")
+    console.log(req.headers["x-access-token"])
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     try {
         const decodedToken = jwt.verify(token, process.env.SECRET_KEY)

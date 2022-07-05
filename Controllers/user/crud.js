@@ -9,6 +9,14 @@ router.get("/all", async (req, res) => {
   res.send(JSON.stringify(users, null, 2));
 });
 
+router.get("/profile",auth_jwt, async (req, res) => {
+  const user = await User.findByPk(req.id)
+  res.send({
+    user
+  });
+});
+
+
 //get user by id
 router.get("/:id", async (req, res) => {
   const user = await User.findByPk(req.params.id);
@@ -34,6 +42,10 @@ router.delete("/delete", auth_jwt, async (req, res) => {
     message: "User deleted successfully!"
   });
 });
+
+// router.get("/profile", (req, res) => {
+//   res.send("This is profile page");
+// });
 
 //update password
 router.put("/update/password", auth_jwt, async (req, res) => {
@@ -69,7 +81,7 @@ router.put("/update/password", auth_jwt, async (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  res.send("This is user page");
+  res.send("this is user page")
 });
 
 module.exports = router;

@@ -21,13 +21,19 @@ export const Login = () => {
           password: password,
         }
       );
-      console.log(response);
+      const status = await response.status;
 
       // eslint-disable-next-line default-case
-      console.log(response.data.user.id);
-      localStorage.setItem("x-access-token", response.data.token);
-      localStorage.setItem("userID", response.data.user.id);
-      toHome()
+      switch (status) {
+        case 200:
+          console.log(response.data.user.id);
+          localStorage.setItem("x-access-token", response.data.token);
+          localStorage.setItem("userID", response.data.user.id);
+          window.location.href = "/";
+          break;
+        case 401:
+          alert("Username or password is incorrect");
+      }
     } catch (err) {
       alert("Error!!!");
     }
