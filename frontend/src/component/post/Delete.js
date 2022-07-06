@@ -1,10 +1,11 @@
 import Axios from "axios";
 import React, { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { UpdatePost } from "./UpdatePost";
 
-export const MyPost = (props) => {
+export const Delete = (props) => {
   const myPost = props.myPost;
   const { id, title, body } = myPost;
-  console.log(myPost);
 
   const handleDelete = async () => {
     try {
@@ -29,12 +30,21 @@ export const MyPost = (props) => {
       console.log(err);
     }
   };
+  let navigate = useNavigate();
+  const toEdit = () => {
+    navigate("/api/user/post/update", { state: { myPost } });
+  };
 
   return (
     <div key={id}>
       <h1>{title}</h1>
       <p>{body}</p>
-      <button onClick={handleDelete}>delete</button>
+      <div>
+        <button onClick={handleDelete}>delete</button>
+      </div>
+      <div>
+        <button onClick={toEdit}>edit</button>
+      </div>
     </div>
   );
 };

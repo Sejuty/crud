@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { MyPost } from "./MyPost";
+import { Delete } from "./Delete";
+import { UpdatePost } from "./UpdatePost";
+
 
 export const MyPosts = () => {
   const [myPosts, setMyPosts] = useState([]);
@@ -16,8 +17,16 @@ export const MyPosts = () => {
           },
         }
       );
+      const status = response.status
       setMyPosts(response.data);
       console.log(response.data);
+      // eslint-disable-next-line default-case
+      switch(status){
+        case 401:
+          alert("Unauthorized!")
+          break;
+
+      }
     } catch (err) {
       console.log(err);
     }
@@ -26,11 +35,18 @@ export const MyPosts = () => {
     getMyPosts();
   }, []);
 
+  
+ 
   return (
     <div>
-      {myPosts.map((post,index) => (
-        <MyPost myPost={post} key={post.id}/>
-      ))}
+      <div>
+        {myPosts.map((post) => (
+          <div key={post.id}>
+            <Delete myPost={post} />
+          </div>
+        ))}
+      </div>
+     
     </div>
   );
 };

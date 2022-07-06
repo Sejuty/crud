@@ -23,12 +23,14 @@ router.post("/post", auth_jwt, async (req, res) => {
 });
 
 //=========================update title=========================
-router.put("/post/update/title", auth_jwt, async (req, res) => {
+router.put("/post/update", auth_jwt, async (req, res) => {
   const userId = req.id;
-  const { id, title } = req.body;
+  const { id, title, body } = req.body;
+  console.log(req.body)
+  
   const user = await User.findByPk(userId);
   const post = await Post.findOne({ where: { id: id } });
-
+ 
   if (!post) {
     return res.status(404).send("Post not found");
   }
@@ -41,35 +43,36 @@ router.put("/post/update/title", auth_jwt, async (req, res) => {
 
   await post.update({
     title,
+    body
   });
   res.status(201).send({
-    message: "Title updated successfully!",
+    message: "Post updated successfully!",
     post: post,
   });
 });
 
 //=========================update body=========================
-router.put("/post/update/body", auth_jwt, async (req, res) => {
-  const userId = req.id;
-  const { id, body } = req.body;
-  const user = await User.findByPk(userId);
-  const post = await Post.findOne({ where: { id: id } });
-  if (post.userId !== user.id) {
-    return res.status(401).send({
-      message: "You are not authorized to update this post!",
-    });
-  }
-  if (!post) {
-    return res.status(404).send("Post not found");
-  }
-  await post.update({
-    body,
-  });
-  res.status(201).send({
-    message: "Body updated successfully!",
-    post: post,
-  });
-});
+// router.put("/post/update/body", auth_jwt, async (req, res) => {
+//   const userId = req.id;
+//   const { id, body } = req.body;
+//   const user = await User.findByPk(userId);
+//   const post = await Post.findOne({ where: { id: id } });
+//   if (post.userId !== user.id) {
+//     return res.status(401).send({
+//       message: "You are not authorized to update this post!",
+//     });
+//   }
+//   if (!post) {
+//     return res.status(404).send("Post not found");
+//   }
+//   await post.update({
+//     body,
+//   });
+//   res.status(201).send({
+//     message: "Body updated successfully!",
+//     post: post,
+//   });
+// });
 
 //=========================delete post=========================
 router.delete("/post/delete/:id", auth_jwt, async (req, res) => {

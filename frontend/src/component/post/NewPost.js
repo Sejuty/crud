@@ -30,6 +30,10 @@ export const NewPost = (props) => {
           alert("Story created");
           window.location.reload(true);
           break;
+          case 401:
+            alert("Unauthorized");
+            window.location.href = "./api/auth/login";
+            break;
         default:
           alert("Something went wrong");
       }

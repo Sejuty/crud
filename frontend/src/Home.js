@@ -22,8 +22,10 @@ export const Home = () => {
 
   const navigate = useNavigate();
 
-  const toRegister = () => {
-    navigate("/api/auth/register");
+  const toLogin = () => {
+    localStorage.setItem("x-access-token", "");
+    localStorage.setItem("userID", "");
+    navigate("/api/auth/login");
   };
   const toProfile = () => {
     navigate("api/user/profile");
@@ -31,6 +33,9 @@ export const Home = () => {
   const toPost = () => {
     navigate("api/user/post");
   };
+  const toUsers = ()=>{
+    navigate("/api/users/all")
+  }
   
   return (
     <div>
@@ -38,13 +43,16 @@ export const Home = () => {
       {/* <NewPost onAddPost = {handleNewPost} /> */}
       <AllPosts posts={posts} />
       <div>
-        <button onClick={toRegister}>register</button>
+        <button onClick={toLogin}>logout</button>
       </div>
       <div>
         <button onClick={toPost} >Post</button>
       </div>
       <div>
         <button onClick={toProfile} >Profile</button>
+      </div>
+      <div>
+        <button onClick={toUsers} >users</button>
       </div>
     </div>
   );

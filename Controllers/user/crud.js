@@ -49,6 +49,7 @@ router.delete("/delete", auth_jwt, async (req, res) => {
 
 //update password
 router.put("/update/password", auth_jwt, async (req, res) => {
+  console.log(req.body)
   const user = await User.findByPk(req.id);
   if (!user) {
     return res.status(404).send(
@@ -56,7 +57,7 @@ router.put("/update/password", auth_jwt, async (req, res) => {
         message: "You are not authorized to update this user!"
       }
     );
-  }
+    }
   const { oldPassword, newPassword } = req.body;
   const verify_oldPassword = await bcrypt.compare(oldPassword, user.password);
   if (!verify_oldPassword) {
@@ -74,7 +75,7 @@ router.put("/update/password", auth_jwt, async (req, res) => {
       },
     }
   );
-  res.send({
+  res.status(200).send({
     message: "password updated successfully!",
     user: user,
   });

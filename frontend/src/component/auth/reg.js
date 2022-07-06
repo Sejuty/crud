@@ -9,18 +9,29 @@ const navigate = useNavigate();
 const toLogin = () => {
   navigate('/api/auth/login');
 };
-const toHome = () => {
-  navigate('/');
-};
+// const toHome = () => {
+//   navigate('/');
+// };
 
 const { name, email, password } = user;
 const register = async()=>{
   try{
-    await Axios.post("http://localhost:3000/api/auth/register",{
+   const response =  await Axios.post("http://localhost:3000/api/auth/register",{
       name:name,
       email:email,
       password:password
     })
+    const status = await response.status;
+    console.log(response)
+
+    // eslint-disable-next-line default-case
+    switch (status) {
+      case 201:
+        window.location.href = "/api/auth/login";
+        break;
+      case 400:
+        alert("Username or password is incorrect");
+    }
   }
   catch(err){
     console.log(err)
@@ -29,8 +40,6 @@ const register = async()=>{
 }
   const handleSubmit = (e) => {
     console.log("Submitted");
-    console.log(user);
-    toHome()
     e.preventDefault();
   };
   const handleChange = (e) => {
