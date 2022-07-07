@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import style from "./css/profile.module.css";
 export const Profile = () => {
-  const [profile,setProfile] = useState([]);
+  const [profile, setProfile] = useState([]);
 
   const myProfile = async () => {
     try {
@@ -15,8 +15,8 @@ export const Profile = () => {
           },
         }
       );
-      
-      setProfile(response.data.user)
+
+      setProfile(response.data.user);
       console.log(profile);
     } catch (err) {
       console.log(err);
@@ -26,16 +26,21 @@ export const Profile = () => {
     myProfile();
   }, []);
 
-  const navigate = useNavigate()
-  const editProfile=()=>{
+  const navigate = useNavigate();
+  const editProfile = () => {
     navigate("/api/users/update/password", { state: { profile } });
-  }
-  console.log(profile)
-  return <div>
-    <h1> {profile.name}</h1>
-    <p>{profile.email}</p>
-    <div>
-      <button onClick={editProfile}>edit</button>
+  };
+  return (
+    <div className={style.profileContainer}>
+      <div className={style.info}>
+        <h1> {profile.name}</h1>
+        <div>
+          <p>email : {profile.email}</p>
+        </div>
+        <div>
+          <button onClick={editProfile}>update</button>
+        </div>
+      </div>
     </div>
-  </div>;
+  );
 };

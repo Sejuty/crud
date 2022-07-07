@@ -8,6 +8,7 @@ export const UpdateProfile = () => {
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  
 
   const handleUpdate = async () => {
     try {

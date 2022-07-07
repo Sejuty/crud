@@ -24,7 +24,13 @@ router.post("/register", async (req, res, next) => {
   checker(validationResult(req));
 
   const { name, email, password } = req.body;
+
   try {
+    if (name === "" || email==="" || password==="") {
+      return res.status(406).send({
+        message: "Please fill the form!",
+      });
+    }
     const salt = await bcrypt.genSalt(8);
     const hash = await bcrypt.hash(password, salt);
     var usr = {
@@ -39,9 +45,9 @@ router.post("/register", async (req, res, next) => {
       email: email,
     });
   } catch (err) {
-    res.status(400).send({
-      message: "Failed! Username or email is already in use!",
-    });
+      return res.status(400).send({
+        message: "Failed! Username or email is already in use!",
+      });
   }
 });
 

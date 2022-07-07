@@ -1,0 +1,33 @@
+.profileContainer{
+    background: rgba(0, 0, 0, 0.699);
+    width:fit-content;
+    height: fit-content;
+    padding: 40px;
+    margin: 50px;
+    border-radius: 10px;
+}
+
+.info{
+    margin:auto 20px;
+}
+
+.profileContainer h1{
+    color:  #e9410a;
+    padding-bottom: 20px;
+}
+
+.profileContainer p{
+    color: #bca482;
+    padding-bottom: 20px;
+}
+.profileContainer button{
+    background: #e9410a;
+    color: #191211;
+    border: none;
+    padding: 8px 15px;
+    margin-left: 115px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}

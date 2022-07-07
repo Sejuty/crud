@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+//import style from"../../css/reg.module.css"
+import style2 from"../../css/login.module.css"
 
 export const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -48,11 +50,10 @@ export const Login = () => {
     setUser({ ...user, [fieldName]: e.target.value });
   };
   return (
-    <div>
-      <h1>Login</h1>
+    <div className={style2.container}>
+      <header>Log in</header>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Email: </label>
           <input
             type="email"
             name="email"
@@ -60,10 +61,11 @@ export const Login = () => {
             required
             value={email}
             onChange={handleChange}
+            placeholder="email"
+            autoFocus
           />
         </div>
         <div>
-          <label htmlFor="password">Password: </label>
           <input
             type="password"
             name="password"
@@ -71,10 +73,12 @@ export const Login = () => {
             required
             value={password}
             onChange={handleChange}
+            autoFocus
+            placeholder="password"
           />
         </div>
         <div>
-          <button type="submit" onClick={login}>
+          <button className={style2.logBtn} type="submit" onClick={login}>
             Login
           </button>
         </div>

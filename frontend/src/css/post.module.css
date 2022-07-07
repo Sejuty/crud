@@ -1,0 +1,39 @@
+.postContainer {
+  background: rgba(0, 0, 0, 0.699);
+  height: fit-content;
+  padding: 30px;
+  margin: auto;
+  width: 50vw;
+  margin-top: 20px;
+  border-radius: 10px;
+  margin-left: 50px;
+}
+
+info {
+  margin: auto 20px;
+}
+
+.postContainer h2 {
+  color: #e9410a;
+  padding: 20px;
+}
+
+.postContainer p {
+  color: #bca482;
+  padding: 20px;
+  min-height: 90px;
+  background-color: rgba(0, 0, 0, 0.788);
+  border-radius: 8px;
+  line-height: 25px;
+}
+
+.postUser {
+  display: block;
+}
+.postUser h4 {
+  position: relative;
+  color: #bca482;
+  font-weight: lighter;
+  margin-left: auto;
+  width: fit-content;
+}

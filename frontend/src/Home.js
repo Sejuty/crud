@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AllPosts } from "./component/post/AllPosts";
-import { NewPost } from "./component/post/NewPost";
-import Axios from "axios";
-
+import style from "./css/home.module.css";
+import { Profile } from "./Profile";
 export const Home = () => {
-  
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
 
-	async function getStories(){
-		const response = await fetch('http://localhost:3000/api/user/post/all', {
-			method: 'GET',
-		})
-		const data = await response.json();
-		setPosts(data)
-	}
+  async function getStories() {
+    const response = await fetch("http://localhost:3000/api/user/post/all", {
+      method: "GET",
+    });
+    const data = await response.json();
+    setPosts(data);
+  }
 
-	useEffect(() => {
-    	getStories()
-	}, [])
+  useEffect(() => {
+    getStories();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -33,26 +31,26 @@ export const Home = () => {
   const toPost = () => {
     navigate("api/user/post");
   };
-  const toUsers = ()=>{
-    navigate("/api/users/all")
-  }
-  
+  const toUsers = () => {
+    navigate("/api/users/all");
+  };
+
   return (
     <div>
-      Home
-      {/* <NewPost onAddPost = {handleNewPost} /> */}
-      <AllPosts posts={posts} />
-      <div>
-        <button onClick={toLogin}>logout</button>
+      <div className={style.topnav}>
+        <div className={style.navLink}>
+          <button onClick={toPost}>post</button>
+          <button onClick={toUsers}>users</button>
+          <button onClick={toLogin}>logout</button>
+        </div>
       </div>
       <div>
-        <button onClick={toPost} >Post</button>
-      </div>
-      <div>
-        <button onClick={toProfile} >Profile</button>
-      </div>
-      <div>
-        <button onClick={toUsers} >users</button>
+        <div className={style.homeProfile}>
+          <Profile />
+        </div>
+        <div className={style.homePost}>
+          <AllPosts posts={posts} />
+        </div>
       </div>
     </div>
   );

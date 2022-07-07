@@ -1,22 +1,22 @@
-import React from 'react'
+import React from "react";
+import style from "../../css/post.module.css";
 
 export const Post = (props) => {
-    const {title, body ,user} = props.post
-    console.log(props.post)
-    console.log(user.name)
+  const { title, body, user} = props.post;
+  console.log(props.post);
+  console.log(user.name);
 
   return (
-    <article>
-    <div>
-      <h4>Name : {user.name}</h4>
-      <h2>{title}</h2>
-      <p>{body}</p>
+    <div className={style.postContainer}>
+      <div className={style.postUser}>
+      <h4>{user.name}</h4>
+      </div>
+      <div>
+        <h2>{title}</h2>
+      </div>
+      <div>
+        <p>{body}</p>
+      </div>
     </div>
-    {/* <div>
-      <button>
-        <i className="fa fa-trash fa-2x"></i>
-      </button>
-    </div> */}
-  </article>
-  )
-}
+  );
+};
