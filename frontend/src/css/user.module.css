@@ -1,27 +1,29 @@
-.profileContainer{
+.userContainer {
     background: rgba(0, 0, 0, 0.699);
     width:fit-content;
     height: fit-content;
     padding: 40px;
-    margin: 50px;
+    margin: 30px 20px;
     border-radius: 10px;
-    margin-top: 80px;
+    display: inline-block;
+    margin-top: 100px;
+    margin-bottom: 0;
+    margin-left: 10%;
 }
 
 .info{
-    margin:auto 20px;
+    padding: 10px;
 }
-
-.profileContainer h1{
+.userContainer h2{
     color:  #e9410a;
     padding-bottom: 20px;
 }
 
-.profileContainer p{
+.userContainer p{
     color: #bca482;
     padding-bottom: 20px;
 }
-.profileContainer button{
+.userContainer button{
     background: #e9410a;
     color: #191211;
     border: none;

@@ -1,0 +1,16 @@
+.btn button{
+  background: #e9410a;
+  color: #191211;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin:10px;
+  cursor: pointer;
+}
+.btn{
+    display: flex;
+    justify-content: space-around;
+}
+.delete{
+    color: blue;
+}

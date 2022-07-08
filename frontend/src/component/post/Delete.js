@@ -2,7 +2,8 @@ import Axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UpdatePost } from "./UpdatePost";
-
+import style from "../../css/post.module.css";
+import style2 from "../../css/delete.module.css";
 export const Delete = (props) => {
   const myPost = props.myPost;
   const { id, title, body } = myPost;
@@ -36,14 +37,20 @@ export const Delete = (props) => {
   };
 
   return (
-    <div key={id}>
-      <h1>{title}</h1>
-      <p>{body}</p>
-      <div>
-        <button onClick={handleDelete}>delete</button>
-      </div>
-      <div>
-        <button onClick={toEdit}>edit</button>
+    <div key={id} className={style.postContainer}>
+      <div className={style.postUser}>
+        <h2>{title}</h2>
+        <div>
+          <p>{body}</p>
+        </div>
+        <div className={style2.btn}>
+          <div className={style2.delete}>
+            <button onClick={handleDelete}>delete</button>
+          </div>
+          <div>
+            <button onClick={toEdit}>edit</button>
+          </div>
+        </div>
       </div>
     </div>
   );

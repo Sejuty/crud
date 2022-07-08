@@ -1,0 +1,36 @@
+textarea {
+  height: 20vh;
+  width: 45vw;
+  resize: none;
+  overflow: hidden;
+  margin:20px;
+  font-size: 1.2rem;
+}
+.newContainer {
+  background: rgba(0, 0, 0, 0.699);
+  height: fit-content;
+  padding: 30px;
+  margin: auto;
+  width:50vw;
+  border-radius: 10px;
+  padding: 30px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 24vw;
+}
+
+.newContainer input{
+    font-size: 1.5rem;
+    width: 45vw;
+    margin-left: 0;
+}
+.newContainer button{
+  background: #e9410a;
+  color: #191211;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}

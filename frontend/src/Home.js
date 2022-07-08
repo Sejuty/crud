@@ -25,11 +25,9 @@ export const Home = () => {
     localStorage.setItem("userID", "");
     navigate("/api/auth/login");
   };
-  const toProfile = () => {
-    navigate("api/user/profile");
-  };
+ 
   const toPost = () => {
-    navigate("api/user/post");
+    navigate("/api/user/post");
   };
   const toUsers = () => {
     navigate("/api/users/all");

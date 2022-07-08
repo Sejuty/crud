@@ -3,7 +3,6 @@ import Axios from "axios";
 import { Delete } from "./Delete";
 import { UpdatePost } from "./UpdatePost";
 
-
 export const MyPosts = () => {
   const [myPosts, setMyPosts] = useState([]);
 
@@ -17,15 +16,14 @@ export const MyPosts = () => {
           },
         }
       );
-      const status = response.status
+      const status = response.status;
       setMyPosts(response.data);
       console.log(response.data);
       // eslint-disable-next-line default-case
-      switch(status){
+      switch (status) {
         case 401:
-          alert("Unauthorized!")
+          alert("Unauthorized!");
           break;
-
       }
     } catch (err) {
       console.log(err);
@@ -35,18 +33,20 @@ export const MyPosts = () => {
     getMyPosts();
   }, []);
 
-  
- 
+  const myStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+  };
+
   return (
-    <div>
-      <div>
-        {myPosts.map((post) => (
-          <div key={post.id}>
-            <Delete myPost={post} />
-          </div>
-        ))}
-      </div>
-     
+    <div style={myStyle}>
+      {myPosts.map((post) => (
+        <div key={post.id}>
+          <Delete myPost={post} />
+        </div>
+      ))}
     </div>
   );
 };

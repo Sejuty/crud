@@ -36,4 +36,5 @@ info {
   font-weight: lighter;
   margin-left: auto;
   width: fit-content;
+  z-index: 1;
 }

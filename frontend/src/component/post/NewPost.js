@@ -2,6 +2,8 @@ import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MyPosts } from "./MyPosts";
+import style from "../../css/newPost.module.css";
+import style2 from "../../css/home.module.css";
 
 export const NewPost = (props) => {
   const [post, setPost] = useState({
@@ -30,10 +32,10 @@ export const NewPost = (props) => {
           alert("Story created");
           window.location.reload(true);
           break;
-          case 401:
-            alert("Unauthorized");
-            window.location.href = "./api/auth/login";
-            break;
+        case 401:
+          alert("Unauthorized");
+          window.location.href = "./api/auth/login";
+          break;
         default:
           alert("Something went wrong");
       }
@@ -52,12 +54,28 @@ export const NewPost = (props) => {
     console.log("Submitted");
     console.log(post);
   };
+  const toLogin = () => {
+    localStorage.setItem("x-access-token", "");
+    localStorage.setItem("userID", "");
+    navigate("/api/auth/login");
+  };
+  const toPost = () => {
+    navigate("/api/users/all");
+  };
+  const toHome = () => {
+    navigate("/");
+  };
   return (
     <div>
-      new Post
+      <div className={style2.topnav}>
+        <div className={style2.navLink}>
+          <button onClick={toPost}>user</button>
+          <button onClick={toHome}>home</button>
+          <button onClick={toLogin}>logout</button>
+        </div>
+      </div>
       <form action="" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title </label>
+        <div className={style.newContainer}>
           <input
             type="text"
             name="title"
@@ -65,10 +83,10 @@ export const NewPost = (props) => {
             value={title}
             onChange={handleInput}
             required
+            placeholder="title"
+            autofocus
           />
-        </div>
-        <div>
-          <label htmlFor="body">Description </label>
+
           <textarea
             type="text"
             name="body"
@@ -76,11 +94,13 @@ export const NewPost = (props) => {
             onChange={handleInput}
             value={body}
             required
+            placeholder="body"
+            autofocus
           />
+          <button type="submit" onClick={createPost}>
+            Add Post
+          </button>
         </div>
-        <button type="submit" onClick={createPost}>
-          Add Post
-        </button>
       </form>
       <MyPosts />
     </div>
