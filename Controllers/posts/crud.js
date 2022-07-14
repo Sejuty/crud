@@ -9,7 +9,12 @@ router.use(cors());
 //=========================create post=========================
 router.post("/post", auth_jwt, async (req, res) => {
   const userId = req.id;
+  console.log(req.body)
   const { title, body } = req.body;
+  if(req.body.body === '' || req.body.title === '')
+  {
+    return res.status(402).send("Empty Field"); 
+  }
   console.log(req.body);
   const user = await User.findByPk(userId);
   if (!user) {

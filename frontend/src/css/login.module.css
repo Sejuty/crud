@@ -1,7 +1,7 @@
 .container {
-    background: rgba(3, 3, 55, 0.5);
+    background: rgba(0, 0, 0, 0.699);
     width: 18.75rem;
-    height: 17rem;
+    height: 18rem;
     margin: auto;
     position: absolute;
     top: 0;
@@ -26,6 +26,6 @@ input{
     color: white;
     padding: 0.7rem;
     cursor: pointer;
-    margin-top: 25px;
+    margin-top: 15px;
     border-radius: 8px;
 }

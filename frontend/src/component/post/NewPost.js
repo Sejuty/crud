@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MyPosts } from "./MyPosts";
 import style from "../../css/newPost.module.css";
-import style2 from "../../css/home.module.css";
+import {Nav} from '../../Nav'
 
 export const NewPost = (props) => {
   const [post, setPost] = useState({
@@ -54,27 +54,12 @@ export const NewPost = (props) => {
     console.log("Submitted");
     console.log(post);
   };
-  const toLogin = () => {
-    localStorage.setItem("x-access-token", "");
-    localStorage.setItem("userID", "");
-    navigate("/api/auth/login");
-  };
-  const toPost = () => {
-    navigate("/api/users/all");
-  };
-  const toHome = () => {
-    navigate("/");
-  };
+ 
   return (
     <div>
-      <div className={style2.topnav}>
-        <div className={style2.navLink}>
-          <button onClick={toPost}>user</button>
-          <button onClick={toHome}>home</button>
-          <button onClick={toLogin}>logout</button>
-        </div>
-      </div>
-      <form action="" onSubmit={handleSubmit}>
+      <Nav />
+     <div className={style.gap}>
+     <form action="" onSubmit={handleSubmit}>
         <div className={style.newContainer}>
           <input
             type="text"
@@ -102,6 +87,7 @@ export const NewPost = (props) => {
           </button>
         </div>
       </form>
+     </div>
       <MyPosts />
     </div>
   );

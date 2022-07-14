@@ -10,9 +10,9 @@ export const Login = () => {
   const { email, password } = user;
 
   const navigate = useNavigate();
-  const toHome = () => {
-    navigate("/");
-  };
+  const register = ()=>{
+    navigate("/api/auth/register")
+  }
 
   const login = async () => {
     try {
@@ -80,6 +80,9 @@ export const Login = () => {
         <div>
           <button className={style2.logBtn} type="submit" onClick={login}>
             Login
+          </button>
+          <button className={style2.logBtn} type="submit" onClick={register}>
+            Register
           </button>
         </div>
       </form>

@@ -38,3 +38,7 @@ info {
   width: fit-content;
   z-index: 1;
 }
+.userpost{
+  margin-left: 20vw;
+  margin-top: 80px;
+}

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AllPosts } from "./component/post/AllPosts";
 import style from "./css/home.module.css";
 import { Profile } from "./Profile";
+import {Nav} from './Nav'
 export const Home = () => {
   const [posts, setPosts] = useState([]);
 
@@ -18,30 +19,10 @@ export const Home = () => {
     getStories();
   }, []);
 
-  const navigate = useNavigate();
-
-  const toLogin = () => {
-    localStorage.setItem("x-access-token", "");
-    localStorage.setItem("userID", "");
-    navigate("/api/auth/login");
-  };
  
-  const toPost = () => {
-    navigate("/api/user/post");
-  };
-  const toUsers = () => {
-    navigate("/api/users/all");
-  };
-
   return (
     <div>
-      <div className={style.topnav}>
-        <div className={style.navLink}>
-          <button onClick={toPost}>post</button>
-          <button onClick={toUsers}>users</button>
-          <button onClick={toLogin}>logout</button>
-        </div>
-      </div>
+      <Nav />
       <div>
         <div className={style.homeProfile}>
           <Profile />

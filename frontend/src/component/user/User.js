@@ -1,5 +1,3 @@
-import Axios from "axios";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "../../css/user.module.css";
 

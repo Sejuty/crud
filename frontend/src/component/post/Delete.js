@@ -1,7 +1,6 @@
 import Axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { UpdatePost } from "./UpdatePost";
 import style from "../../css/post.module.css";
 import style2 from "../../css/delete.module.css";
 export const Delete = (props) => {

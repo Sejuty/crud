@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useLocation } from "react-router-dom";
+import style from "./css/login.module.css";
 
 export const UpdateProfile = () => {
   const location = useLocation();
@@ -8,7 +9,6 @@ export const UpdateProfile = () => {
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  
 
   const handleUpdate = async () => {
     try {
@@ -28,7 +28,7 @@ export const UpdateProfile = () => {
       // eslint-disable-next-line default-case
       switch (status) {
         case 200:
-          window.location.href = "/api/user/profile";
+          window.location.href = "/";
           alert("Password Updated Successfully");
           break;
         case 400:
@@ -37,42 +37,47 @@ export const UpdateProfile = () => {
         default:
           alert("ERROR!");
       }
-      console.log(response.data);
     } catch (err) {
-      console.log(err.response);
+      const status = err.response.status;
+      switch (status) {
+        case 400:
+          alert("Old password incorrect");
+          break;
+        default:
+          alert("ERROR!");
+      }
     }
   };
-  // const updateInput = (e) => {
-  //   setUpdateProfile({
-  //      [e.target.name]: e.target.value
-  //     });
-  // };
 
   return (
-    <div>
-      <div>
-        <label htmlFor="oldPassword">Old Password </label>
-        <input
-          type="text"
-          name="oldPassword"
-          id="oldPassword"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-          required
-        />
+    <div className={style.recontainer}>
+      <div className={style.container}>
+        <div>
+          <input
+            type="text"
+            name="oldPassword"
+            id="oldPassword"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            required
+            placeholder="Old Password"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            name="newPassword"
+            id="newPassword"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            placeholder="New Password"
+          />
+        </div>
+        <button onClick={handleUpdate} className={style.logBtn}>
+          Update
+        </button>
       </div>
-      <div>
-        <label htmlFor="newPassword">New Password </label>
-        <input
-          type="text"
-          name="newPassword"
-          id="newPassword"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-      </div>
-      <button onClick={handleUpdate}>Update</button>
     </div>
   );
 };

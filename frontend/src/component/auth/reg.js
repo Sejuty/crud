@@ -31,7 +31,7 @@ export const Registration = () => {
       // eslint-disable-next-line default-case
       switch (status) {
         case 201:
-          alert("User Created succesfully");
+          alert("Registered");
           window.location.href = "/api/auth/login";
           break;
       }
